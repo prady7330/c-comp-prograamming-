@@ -1,36 +1,37 @@
 #include<iostream>
+#include<string>
+#define MAX 10000000
 using namespace std;
-bool isPrime(int n)
-{
-    if (n <= 1)  return false;
-    if (n <= 3)  return true;
-    if (n%2 == 0 || n%3 == 0) return false;
-    for (int i=5; i*i<=n; i=i+6)
-        if (n%i == 0 || n%(i+2) == 0)
-           return false;
- 
-    return true;
-}
-int main(){
-	int n;
-	int a,b;
-	cin>>n;
-	for(int i=0;i<n;++i){
-		cin>>a>>b;
-		int count=0;
-		for(int j=a;j<=b;++j){
-			if(j<10){
-				if(j==2 || j==3 || j==5 || j==7) count++; 
+int* primes=new int[MAX+5];
+void sieve(){
+	for(long long i=0;i<=MAX;++i) {
+		primes[i]=1;
+	}
+	primes[0]=primes[1]=0;
+	for(long long i=2;i<=MAX;++i){
+		if(primes[i]==1){
+			for(long long j=i*i;j<=MAX;j+=i) {
+				primes[j]=0;
 			}
-			else if(j>=10){
-				int x=j%10;
-				if(x==0 || x==2 || x==5 || x==6 || x==8) continue;
-				else{
-					if(isPrime(j)) count++;
-				}
+			string s=to_string(i);
+			if(s!=string(s.rbegin(),s.rend())) {
+				primes[i]=0;
 			}
 		}
-		cout<<count<<endl;
 	}
+	for(int i=1;i<=MAX;++i) {
+		primes[i]+=primes[i-1];
+	}
+}
+int main(){
+	sieve();
+	int t;
+	cin>>t;
+	while(t--){
+		long long n;
+		cin>>n;
+		cout<<primes[n]<<endl;
+	}
+	delete[] primes;
 	return 0;
 }

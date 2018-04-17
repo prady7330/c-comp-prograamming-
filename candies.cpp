@@ -1,30 +1,24 @@
 #include<iostream>
-#include<map>
 using namespace std;
 int main(){
-	long int t,n,k,i,j;
-	long long int m,a,b,count;
-	multimap<long long int,long int> ma;
-	multimap<long long int,long int> :: iterator it;
-	cin>>t;
-	for(i=0;i<t;++i){
-		ma.clear();
-		cin>>n>>k;
-		count=0;
-		for(j=0;j<n;++j){
-			cin>>m;
-			ma.insert(pair<long long int,long int>(m,i));
+	int n;
+	cin>>n;
+	long long int count=0,m;
+	for(int i=0;i<n;++i){
+		cin>>m;
+		count+=m;
+	}
+	long long int sum=0;
+	for(long long int i=1; ;i++){
+		sum+=i;
+		if(sum==count && i==n){
+			cout<<"YES";
+			break;
 		}
-		for(j=0;j<k;++j){
-			a=ma.rbegin()->first;
-			b=ma.rbegin()->second;
-			it=ma.end();
-			--it;
-			ma.erase(it);
-			ma.insert(pair<long long int,long int>(a/2,b));
-			count+=a;
+		if(sum>count){
+			cout<<"NO";
+			break;
 		}
-		cout<<count<<endl;
 	}
 	return 0;
 }
